@@ -39,9 +39,9 @@ const upload = multer({
   });
 
   app.post("/api/uploadImage", (req, res) => {
-      
-    upload(req, res, function(err) {
-        if(err){
+    const filename = Date.now() + "ribbon.jpeg";
+    fs.writeFile("public/uploads/"+ filename, req.body.ribbon.replace(/^data:image\/jpeg;base64,/, ""), 'base64', function(err) {
+           if(err){
             res.json(
                 {
                   success: false,
@@ -53,7 +53,7 @@ const upload = multer({
         res.json(
             {
               success: true,
-              payload: req.file.filename,
+              payload: filename,
               message: "Image Uploaded!"
             }
           );
