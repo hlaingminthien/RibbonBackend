@@ -5,6 +5,7 @@ CREATE TABLE `ribbon`.`tbl_sharecounts` (
   `count` VARCHAR(45) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);
+  
 CREATE TABLE `ribbon`.`tbl_luckydrawcounts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
