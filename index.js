@@ -21,8 +21,8 @@ const upload = multer({
   storage: storage
 }).single("ribbon");
 app.use(express.static(path.join(__dirname, "public/uploads")));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -38,8 +38,8 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/uploadImage", (req, res) => {
-  const filename = Date.now() + "ribbon.jpeg";
-  fs.writeFile("public/uploads/" + filename, req.body.ribbon.replace(/^data:image\/jpeg;base64,/, ""), 'base64', function (err) {
+  const filename = Date.now() + "ribbon.gif";
+  fs.writeFile("public/uploads/" + filename, req.body.ribbon.replace(/^data:image\/gif;base64,/, ""), 'base64', function (err) {
     if (err) {
       res.json(
         {
@@ -127,6 +127,7 @@ app.post("/api/luckydrawcount", (req, res) => {
   var ran = Math.floor(Math.random() * 100);
   if(Math.floor(ran/3) === 2) {
     db.saveLuckyDrawCount().then(data => {
+      console.log('data is=>', data);
       res.json(
         {
           success: true,
