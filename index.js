@@ -124,23 +124,38 @@ app.post("/api/sharecount", (req, res) => {
 })
 
 app.post("/api/luckydrawcount", (req, res) => {
-  db.saveLuckyDrawCount().then(data => {
+  var ran = Math.floor(Math.random() * 100);
+  if(Math.floor(ran/3) === 2) {
+    db.saveLuckyDrawCount().then(data => {
+      res.json(
+        {
+          success: true,
+          payload: data[0][0],
+          message: null,
+          lucky: true
+        }
+      );
+    }).catch(err => {
+      res.json(
+        {
+          success: false,
+          payload: null,
+          message: err,
+          lucky: false
+        }
+      );
+    });
+  }
+  else {
     res.json(
       {
         success: true,
-        payload: data[0][0],
-        message: null
-      }
-    );
-  }).catch(err => {
-    res.json(
-      {
-        success: false,
         payload: null,
-        message: err
+        message: null,
+        lucky: false
       }
     );
-  });
+  }
 })
 
 
