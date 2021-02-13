@@ -128,15 +128,27 @@ app.post("/api/luckydrawcount", (req, res) => {
   if(Math.floor(ran/3) === 2) {
     db.saveLuckyDrawCount().then(data => {
       console.log('data is=>', data);
-      res.json(
-        {
-          success: true,
-          payload: data[0][0],
-          message: null,
-          lucky: true
-        }
-      );
+      if(data[0][0].count > 2){
+        res.json(
+          {
+            success: true,
+            payload: data[0][0],
+            message: null,
+            lucky: false
+          }
+        );
+      } else {
+        res.json(
+          {
+            success: true,
+            payload: data[0][0],
+            message: null,
+            lucky: true
+          }
+        );
+      } 
     }).catch(err => {
+      console.log('err is=>', err);
       res.json(
         {
           success: false,
