@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/uploadImage", (req, res) => {
-  const filename = Date.now() + "ribbon.gif";
+  const filename = Date.now() + "ribbon.png";
   fs.writeFile("public/uploads/" + filename, req.body.ribbon.replace(/^data:image\/png;base64,/, ""), 'base64', function (err) {
     if (err) {
       res.json(
