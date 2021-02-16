@@ -222,7 +222,7 @@ app.post("/api/share-email", async (req, res) => {
 
     let info = await transporter.sendMail({
       from: 'pledgearibbon@ncisribbonchallenge.sg', // sender address
-      to: "nayhtet117711@gmail.com", // list of receivers
+      to: receiveEmail, // list of receivers
       subject: subjectText, // Subject line
       // text: "Hello world?", // plain text body
       html: contentHtml
