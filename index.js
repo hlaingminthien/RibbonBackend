@@ -6,7 +6,7 @@ const fs = require("fs");
 const multer = require("multer");
 const nodemailer = require("nodemailer");
 
-const db = null//require("./ribbon_db");
+const db = require("./ribbon_db");
 const port = 9898;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
