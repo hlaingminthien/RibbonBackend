@@ -16,7 +16,7 @@ const mypool = mysql.createConnection({
 // login
 const getShareCount = () => {
     query = util.promisify(mypool.query).bind(mypool);
-    return query(`SELECT count FROM tbl_sharecounts WHERE  date =  CURDATE();`)
+    return query(`SELECT sum(count) as count FROM tbl_sharecounts;`)
 }
 
 const getLuckyDrawCount = () => {

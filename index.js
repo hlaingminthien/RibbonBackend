@@ -124,10 +124,9 @@ app.post("/api/sharecount", (req, res) => {
 })
 
 app.post("/api/luckydrawcount", (req, res) => {
-  var ran = Math.floor(Math.random() * 100);
-  if(Math.floor(ran/3) === 2) {
+  var ran = Math.floor(Math.random() * 30);
+  if(ran == 11 || ran == 29) {
     db.saveLuckyDrawCount().then(data => {
-      console.log('data is=>', data);
       if(data[0][0].count > 2){
         res.json(
           {
