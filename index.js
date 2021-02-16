@@ -177,21 +177,29 @@ app.post("/api/luckydrawcount", (req, res) => {
 let transporter = null
 
 const createTransporter = async () => {
-  // const testAccount = await nodemailer.createTestAccount();
+  try {
+    transporter = nodemailer.createTransport({
+      // host: "smtp.gmail.com",
+      // host: "mail.ncisribbonchallenge.sg",
+      host: "business100.web-hosting.com",
+      port: 465,
+      // port: 587,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: "pledgearibbon@ncisribbonchallenge.sg",
+        pass: "67WD20~xl&NX",
+        // user: "moemingyi991@gmail.com", // generated ethereal user
+        // pass: "mkkqrwclunexlccb", // generated ethereal password
+      },
+      tls: {
+        rejectUnauthorized: false
+      },
+      // ignoreTLS: true
+    });
+  } catch(err) {
+    console.log(err.stack)
+  }
 
-  // create reusable transporter object using the default SMTP transport
-  transporter = nodemailer.createTransport({
-    // host: "smtp.gmail.com",
-    host: "mail.ncisribbonchallenge.sg",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: "pledgearibbon@ncisribbonchallenge.sg",
-      pass: "67WD20~xl&NX",
-      // user: "moemingyi991@gmail.com", // generated ethereal user
-      // pass: "mkkqrwclunexlccb", // generated ethereal password
-    },
-  });
 }
 
 createTransporter()
@@ -219,7 +227,7 @@ app.post("/api/share-email", async (req, res) => {
       // text: "Hello world?", // plain text body
       html: contentHtml
     });
-    // console.log("Preview URL: %s", info);
+    console.log("Preview URL: %s", info);
 
     return res.json({info})  
   } catch(error) {
