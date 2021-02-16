@@ -7,7 +7,7 @@ const multer = require("multer");
 const nodemailer = require("nodemailer");
 
 const db = require("./ribbon_db");
-const port = 9898;
+const port = 9897;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -181,15 +181,15 @@ const createTransporter = async () => {
 
   // create reusable transporter object using the default SMTP transport
   transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    // host: "",
+    // host: "smtp.gmail.com",
+    host: "mail.ncisribbonchallenge.sg",
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      // user: "cancerscreening@nuhs.edu.sg",
-      // pass: "",
-      user: "moemingyi991@gmail.com", // generated ethereal user
-      pass: "mkkqrwclunexlccb", // generated ethereal password
+      user: "pledgearibbon@ncisribbonchallenge.sg",
+      pass: "67WD20~xl&NX",
+      // user: "moemingyi991@gmail.com", // generated ethereal user
+      // pass: "mkkqrwclunexlccb", // generated ethereal password
     },
   });
 }
@@ -213,7 +213,7 @@ app.post("/api/share-email", async (req, res) => {
     // console.log("transporter: ", transporter)
 
     let info = await transporter.sendMail({
-      from: 'moemingyi991@gmail.com', // sender address
+      from: 'pledgearibbon@ncisribbonchallenge.sg', // sender address
       to: "nayhtet117711@gmail.com", // list of receivers
       subject: subjectText, // Subject line
       // text: "Hello world?", // plain text body
