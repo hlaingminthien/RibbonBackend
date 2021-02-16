@@ -4,7 +4,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const fs = require("fs");
 const multer = require("multer");
-const db = require("./ribbon_db");
+const nodemailer = require("nodemailer");
+
+const db = null//require("./ribbon_db");
 const port = 9898;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,7 +43,8 @@ app.post("/api/uploadImage", (req, res) => {
   const filename = Date.now() + "ribbon.png";
   fs.writeFile("public/uploads/" + filename, req.body.ribbon.replace(/^data:image\/png;base64,/, ""), 'base64', function (err) {
     if (err) {
-      res.json(
+      console.log(err.stack)
+      return res.json(
         {
           success: false,
           payload: null,
@@ -49,7 +52,7 @@ app.post("/api/uploadImage", (req, res) => {
         }
       );
     }
-    res.json(
+    return res.json(
       {
         success: true,
         payload: filename,
@@ -68,7 +71,7 @@ app.get("/api/sharecount", (req, res) => {
     res.json(
       {
         success: true,
-        payload: data.length > 0 ? data[0] : {'count': 0},
+        payload: data.length > 0 ? data[0] : { 'count': 0 },
         message: null
       }
     );
@@ -88,7 +91,7 @@ app.get("/api/luckydrawcount", (req, res) => {
     res.json(
       {
         success: true,
-        payload: data.length > 0 ? data[0] : {'count': 0},
+        payload: data.length > 0 ? data[0] : { 'count': 0 },
         message: null
       }
     );
@@ -125,10 +128,10 @@ app.post("/api/sharecount", (req, res) => {
 
 app.post("/api/luckydrawcount", (req, res) => {
   var ran = Math.floor(Math.random() * 100);
-  if(Math.floor(ran/3) === 2) {
+  if (Math.floor(ran / 3) === 2) {
     db.saveLuckyDrawCount().then(data => {
       console.log('data is=>', data);
-      if(data[0][0].count > 2){
+      if (data[0][0].count > 2) {
         res.json(
           {
             success: true,
@@ -146,7 +149,7 @@ app.post("/api/luckydrawcount", (req, res) => {
             lucky: true
           }
         );
-      } 
+      }
     }).catch(err => {
       console.log('err is=>', err);
       res.json(
@@ -171,5 +174,59 @@ app.post("/api/luckydrawcount", (req, res) => {
   }
 })
 
+let transporter = null
+
+const createTransporter = async () => {
+  // const testAccount = await nodemailer.createTestAccount();
+
+  // create reusable transporter object using the default SMTP transport
+  transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    // host: "",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      // user: "cancerscreening@nuhs.edu.sg",
+      // pass: "",
+      user: "moemingyi991@gmail.com", // generated ethereal user
+      pass: "mkkqrwclunexlccb", // generated ethereal password
+    },
+  });
+}
+
+createTransporter()
+
+app.post("/api/share-email", async (req, res) => {
+  try {
+    const body = req.body
+
+    const receiveEmail = body.receiveEmail
+    const subjectText = body.subjectText
+    const contentHtml = body.contentHtml
+
+    console.log({
+      receiveEmail, 
+      subjectText,
+      // contentHtml
+    })
+
+    // console.log("transporter: ", transporter)
+
+    let info = await transporter.sendMail({
+      from: 'moemingyi991@gmail.com', // sender address
+      to: "nayhtet117711@gmail.com", // list of receivers
+      subject: subjectText, // Subject line
+      // text: "Hello world?", // plain text body
+      html: contentHtml
+    });
+    // console.log("Preview URL: %s", info);
+
+    return res.json({info})  
+  } catch(error) {
+    console.error(error)
+    return res.json({ error: error.toString() })
+  }
+
+})
 
 app.listen(port, () => console.log(`server is running on port ${port}`));
