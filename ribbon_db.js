@@ -26,12 +26,12 @@ const getLuckyDrawCount = () => {
 
 const saveLuckyDrawCount = () => {
     query = util.promisify(mypool.query).bind(mypool);
-    return query(`call ribbon.sp_saveLuckyDraw();`);
+    return query(`call ncisskdp_ribbon_staging.sp_saveLuckyDraw();`);
 }
 
 const saveShareCount = () => {
     query = util.promisify(mypool.query).bind(mypool);
-    return query(`call ribbon.sp_saveShareCount();`);
+    return query(`call ncisskdp_ribbon_staging.sp_saveShareCount();`);
 }
 
 module.exports = {saveShareCount, getShareCount, getLuckyDrawCount, saveLuckyDrawCount}
