@@ -128,7 +128,9 @@ app.post("/api/sharecount", (req, res) => {
 
 app.post("/api/luckydrawcount", (req, res) => {
     db.saveLuckyDrawCount().then(data => {
-      if(data[0][0].count == 11 || data[0][0].count == 29){
+      //Winning numbers: 3, 9, 11, 15, 29, 41, 57, 65, 83, 111
+      //if(data[0][0].count == 3 || data[0][0].count == 9 || data[0][0].count == 11 || data[0][0].count == 15 || data[0][0].count == 29 || data[0][0].count == 41 || data[0][0].count == 57 || data[0][0].count == 65 || data[0][0].count == 83 || data[0][0].count == 111){
+      if(data[0][0].count == 3 || data[0][0].count == 11 || data[0][0].count == 15 || data[0][0].count == 29 || data[0][0].count == 41){
         res.json(
           {
             success: true,
@@ -166,14 +168,14 @@ const createTransporter = async () => {
   try {
     transporter = nodemailer.createTransport({
       // host: "smtp.gmail.com",
-      // host: "mail.ncisribbonchallenge.sg",
-      host: "business100.web-hosting.com",
+      host: "mail.ncisribbonchallenge.sg",
+      // host: "business100.web-hosting.com",
       port: 465,
       // port: 587,
       secure: true, // true for 465, false for other ports
       auth: {
         user: "pledgearibbon@ncisribbonchallenge.sg",
-        pass: "67WD20~xl&NX",
+        pass: "t^lHU6]lO7Fv",
         // user: "moemingyi991@gmail.com", // generated ethereal user
         // pass: "mkkqrwclunexlccb", // generated ethereal password
       },
